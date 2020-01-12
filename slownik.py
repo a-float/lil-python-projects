@@ -1,7 +1,7 @@
 import mechanicalsoup
 import re
 from os import system
-system("title "+"Sick_Słownik")
+#system("title "+"Sick_Słownik")
 
 #term = "małpa"
 while True:

@@ -9,7 +9,8 @@ from datetime import datetime
 currentDate = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 print(currentDate, end=" ")
 
-PHONEPATH="/home/matt/Projects/my_projects/phone_price_scraper/"
+with open("path.txt") as f:
+	PHONEPATH=f.read()[:-1]
 target = PHONEPATH+"prices.json"
 read_list = PHONEPATH+"list_phones.txt"
 url = "https://www.ceneo.pl/Telefony_komorkowe;szukaj-"

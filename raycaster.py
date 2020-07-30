@@ -19,17 +19,17 @@ board = [
 [1,1,1,1,1,1,1,1],
 [1,0,0,0,0,0,0,1],
 [1,1,1,0,1,1,0,1],
+[1,1,0,0,0,1,0,1],
+[1,1,0,0,0,1,0,1],
 [1,0,0,0,0,1,0,1],
-[1,0,0,0,0,1,0,1],
-[1,0,0,0,0,1,0,1],
-[1,0,0,0,0,0,0,1],
+[1,1,0,1,0,0,0,1],
 [1,1,1,1,1,1,1,1],
 ]
 
 player = Vector2(100,100)
 ang = 0 #player rotation
 width, height = 960, 480
-PURPLE = (200,0,255)
+CYAN = (0,230,255)
 PINK = (255,0,255)
 
 
@@ -42,10 +42,10 @@ def show_board():
 
 def show_player(pla):
 	r = pygame.Rect(pla.x, pla.y, P_SIZE, P_SIZE)
-	pygame.draw.rect(screen, PURPLE, r)
+	pygame.draw.rect(screen, CYAN, r)
 	radius = 18
 	end_point = (pla.x + cos(ang)*radius+P_SIZE/2, pla.y + sin(ang)*radius+P_SIZE/2)
-	pygame.draw.line(screen, PURPLE, (pla.x+P_SIZE/2, pla.y+P_SIZE/2), end_point, 5)
+	pygame.draw.line(screen, CYAN, (pla.x+P_SIZE/2, pla.y+P_SIZE/2), end_point, 5)
 
 def calc_dist(a,b):
 	return (a[0]-b[0])**2 + (a[1]-b[1])**2
@@ -84,7 +84,7 @@ def show_ray(pla, a):
 	if a <= pi:
 		cy +=1	#starting down
 		dy = 1
-	inv_tg = 1/(tan(a)+0.001)
+	inv_tg = 1/(tan(a)+0.00001)
 	hitx = (cy*60 - pla.y)*inv_tg + pla.x #x = (y-b)/a
 	hitx_i = floor(hitx//60) 
 	while cy > -1 and cy < ROWS and hitx_i > -1 and hitx_i < COLS:
@@ -100,11 +100,14 @@ def show_ray(pla, a):
 
 	if calc_dist((pla.x,pla.y), xres) < calc_dist((pla.x,pla.y), yres):
 		hit = xres
+		col_mult = 0.5
 	else:
 		hit = yres
+		col_mult = 1
 	# pygame.draw.line(screen, (255,0,0), (pla.x+P_SIZE/2, pla.y+P_SIZE/2), xres, 1)
 	# pygame.draw.line(screen, (0,0,255), (pla.x+P_SIZE/2, pla.y+P_SIZE/2), yres, 1)
 	pygame.draw.line(screen, (0,255,0), (pla.x+P_SIZE/2, pla.y+P_SIZE/2), hit, 1)
+	return (calc_dist(hit, (pla.x,pla.y)),col_mult)
 
 screen = pygame.display.set_mode((width, height))
 pygame.display.init()  
@@ -141,8 +144,17 @@ while running:
 
 	show_board()
 	show_player(player)
-	for i in range(-15,15):
-		show_ray(player, ang+i*pi/40)
+	pygame.draw.rect(screen, (0,60,112), pygame.Rect(width*0.5, 0, width*0.5, height*0.5))
+	pygame.draw.rect(screen, (40,40,40), pygame.Rect(width*0.5, height*0.5, width*0.5, height*0.5))
+	ray_count = 60
+	x_step = width*0.5/ray_count
+	for i in range(0, ray_count):
+		ray_angle = ang+(i-ray_count//2)*pi/2/ray_count
+		dist, col_mult = show_ray(player, ray_angle)
+		dist = (60*320)/(sqrt(dist)*cos(ang-ray_angle))
+		hh = floor(dist/3) #half height
+		r = pygame.Rect(width/2+x_step*i,height/2-hh,x_step, hh*2)
+		pygame.draw.rect(screen, (col_mult*200,col_mult*200,col_mult*200), r)
   # Draw.
 	pygame.display.flip()
 	fpsClock.tick(fps)

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="styles.css">
+		<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;800&display=swap" rel="stylesheet"> 
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Checkers!</title>
+	</head>
+	<body>
+		<nav id="mock_navbar">
+			<h2>The checkerz</h2>
+		</nav>
+		<content>
+			<main>
+			</main>
+			<div id="board_info">
+				<div>
+					<h2>Turn: &nbsp</h2><h2 id="turn">white</h2>
+				</div>
+				<button onclick="setup()" type="button" class="button1">Restart</button>
+				<br>
+				<p>Player red</p><p id="textP2"style="display:none">BOT</p>
+				<label class="switch">
+				  <input id="myCheckP2" type="checkbox">
+				  <span class="slider"></span>
+				</label>
+				
+				<br>
+				<p>Player white</p> <p id="textP1" style="display:none">BOT</p>
+				<label class="switch">
+				  <input id="myCheckP1" type="checkbox">
+				  <span class="slider"></span>
+				</label>
+				<br>
+				
+			</div>
+		</content>
+	</body>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"></script> -->
+	<script src="p5.js"></script>
+	<script src="checkers.js"></script>
+	<script src="checkers_ai.js"></script>
+</html>
